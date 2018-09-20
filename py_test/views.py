@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-
+from .models import BlogArticles
 
 # Create your views here.
 def index(request):
@@ -24,3 +24,12 @@ def login_action(request):
 def event_manage(request):
     username = request.COOKIES.get('user','')
     return render(request,"event_manage.html",{"user":username})
+
+def bolg_title(request):
+    blogs = BlogArticles.objects.all()
+    return render(request,"blog/titles.html",{"blogs":blogs})
+
+def blog_article(request,article_id):
+    article = BlogArticles.objects.get(id=article_id)
+    pub = article.publish
+    return render(request,"blog/content.html",{"article":article, "publish":pub })
